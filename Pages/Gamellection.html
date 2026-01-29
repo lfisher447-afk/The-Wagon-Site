@@ -1,308 +1,461 @@
-<!DOCTYPE HTML>
-<HTML>
-    <head>
-        <title>Gamellection | The Wagon Site</title>
-        <link rel="icon" type="image/x-icon" href="../images/JackWagonIcon.png">
-        <link rel="stylesheet" type="text/css" href="../stylez.css">
-        <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Yatra+One&display=swap" rel="stylesheet">
-        <script type="text/javascript">
-            (function(c,l,a,r,i,t,y){
-                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-            })(window, document, "clarity", "script", "oqwnloclrl");
-        </script>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Search Function</title>
-        <style>
-            .search-function {
-                body {
-                font-family: 'Yatra One';
-                margin: 0;
-                height: 100vh;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                text-align: center;
-                }
-                #container {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                }
-                #searchInput, button {
-                    margin-bottom: 10px;
-                }
-                #result {
-                    margin-top: 20px;
-                }
-            }
-        </style>
-        <title>Centered Small Text</title>
-        <style>
-            .small-centered-text {
-                font-size: 10px;
-                text-align: center;
-            }
-        </style>
-        <title>Centered Text</title>
-        <style>
-            .centered-text {
-                text-align: center;
-            }
-        </style>
-        <title>Small Text</title>
-        <style>
-            .small-text {
-                font-size: 10px;
-            }
-        </style>
-        <style>
-            .indented {
-                margin-left: 20px;
-            }
-        </style>
-        <style>
-            .indented2 {
-                margin-left: 40px;
-            }
-        </style>
-        <style>
-            .container {
-                display: flex;
-            }
-            .item {
-                flex: 1;
-            }
-            .code-box {
-                border: 1px solid #ccc;
-                padding: 10px;
-                margin-top: 20px;
-            }
-        </style>
-        <title>Box Box</title>
-        <style>
-            .main-container {
-                display: flex;
-                justify-content: center;
-                gap: 20px;
-                color: white;
-                height: 100vh;
-                align-items: center;
-            }
-            .container {
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: center;
-            }
-            .box {
-                color: white;
-                width: 200px;
-                height: 200px;
-                border: 2px solid white;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin: 0;
-            }
-            #box1 {
-                width: 150px;
-                height: 150px;
-            }
-            #box2 {
-                width: 150px;
-                height: 50px;
-                align-content: center;
-            }
-        </style>
-        <style>
-            .scroll-section {
-                width: 100%;
-                overflow-x: auto;
-                white-space: nowrap;
-                display: flex;
-                -ms-overflow-style: none;
-                scrollbar-width: none;
-            }
-            .scroll-section::-webkit-scrollbar {
-                display: none;
-            }
-        </style>
-          
-    </head>
-    <audio id="background-music" autoplay loop></audio>
-    <body>
-        <a href="..\Pages\Config.html"><img src="..\Images\cog.png" alt="cog" style="float: right; width:21px; height:21px;"></a>
-        <p><a href="..\Pages\Home.html">Home</a> | <a href="..\Pages\Navigation.html">All</a> | <a href="..\Pages\TheBypassing.html">The Bypassing</a> | <b>Gamellection</b> | <a href="..\Pages\ProxList.html">ProxList</a> | <a href="..\Pages\Questions.html">Questions</a></p>
-        <hr>
-        <div id="container" style="text-align: center;">
-            <input type="text" id="searchInput" placeholder="Search...">
-            <button onclick="searchFunction()">Search</button>
-            <div id="result"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamellection | The Wagon Site</title>
+    
+    <!-- Icons & Fonts -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Yatra+One&display=swap" rel="stylesheet">
+    
+    <!-- Tracking (Preserved) -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "oqwnloclrl");
+    </script>
+
+    <style>
+        :root {
+            --primary: #00f2ff;
+            --secondary: #bd00ff;
+            --bg-dark: #0f0f13;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+            --font-main: 'Outfit', sans-serif;
+            --font-header: 'Yatra One', cursive;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: var(--font-main);
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(189, 0, 255, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 242, 255, 0.15), transparent 25%);
+            background-attachment: fixed;
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* --- Navbar --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            border-bottom: var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-logo { font-family: var(--font-header); font-size: 1.5rem; color: var(--primary); text-decoration: none; }
+        .nav-links a { color: #ccc; text-decoration: none; margin-left: 20px; transition: 0.3s; font-size: 0.9rem; }
+        .nav-links a:hover, .nav-links a.active { color: white; text-shadow: 0 0 10px var(--primary); }
+
+        /* --- Search Section --- */
+        .hero {
+            text-align: center;
+            padding: 60px 20px 40px;
+        }
+
+        h1 {
+            font-family: var(--font-header);
+            font-size: 3rem;
+            margin: 0 0 20px 0;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(0, 242, 255, 0.3);
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 15px 50px 15px 25px;
+            border-radius: 30px;
+            border: var(--glass-border);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            font-size: 1.1rem;
+            font-family: var(--font-main);
+            outline: none;
+            transition: 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        #searchInput:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 1.2rem;
+        }
+
+        /* --- Game Grid --- */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 25px;
+            padding: 20px 60px 100px; /* Bottom padding for music player */
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .game-card {
+            background: var(--card-bg);
+            border: var(--glass-border);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            text-decoration: none;
+            display: block;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px rgba(0, 242, 255, 0.15);
+        }
+
+        .img-wrapper {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+            background: #000;
+        }
+
+        .img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+            opacity: 0.8;
+        }
+
+        .game-card:hover .img-wrapper img { opacity: 1; transform: scale(1.1); }
+
+        .card-info {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .card-title {
+            color: white;
+            font-weight: 500;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .fav-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.6);
+            border: none;
+            color: #fff;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: 0.2s;
+        }
+
+        .game-card:hover .fav-btn { opacity: 1; }
+        .fav-btn:hover { color: red; background: white; }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 0.8rem;
+            border-top: var(--glass-border);
+            background: rgba(0,0,0,0.4);
+        }
+
+        /* --- MUSIC PLAYER WIDGET --- */
+        .music-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+            z-index: 1000;
+            transition: 0.3s;
+        }
+        .music-toggle:hover { transform: rotate(90deg) scale(1.1); }
+
+        .music-player {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 300px;
+            background: rgba(15, 15, 20, 0.95);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            transform-origin: bottom right;
+            transform: scale(0);
+            opacity: 0;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 999;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        .music-player.active { transform: scale(1); opacity: 1; }
+
+        .player-header { display: flex; justify-content: space-between; margin-bottom: 15px; color: #888; font-size: 0.8rem; }
+        .song-info { text-align: center; margin-bottom: 15px; }
+        .song-title { color: white; font-weight: bold; display: block; margin-bottom: 5px; }
+        .controls { display: flex; justify-content: center; gap: 15px; align-items: center; margin-bottom: 10px; }
+        .ctrl-btn { background: none; border: none; color: #ccc; cursor: pointer; font-size: 1.2rem; transition: 0.2s; }
+        .ctrl-btn:hover { color: var(--primary); }
+        .play-btn { font-size: 2rem; color: var(--primary); }
+        input[type="range"] { width: 100%; accent-color: var(--primary); height: 4px; }
+
+        /* No Results Msg */
+        #no-results {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 40px;
+            display: none;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bg-music" loop></audio>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="../Pages/Home.html" class="nav-logo">
+            <i class="ph-bold ph-game-controller"></i> The Wagon
+        </a>
+        <div class="nav-links">
+            <a href="../Pages/Home.html">Home</a>
+            <a href="../Pages/Navigation.html">All</a>
+            <a href="../Pages/TheBypassing.html">Bypassing</a>
+            <a href="#" class="active">Gamellection</a>
+            <a href="../Pages/ProxList.html">Proxies</a>
+            <a href="../Pages/Config.html" title="Settings"><i class="ph-bold ph-gear"></i></a>
         </div>
-        <script src="..\js\gamellection.js"></script>
-        <hr>
-        <br>
-        <br>
-        <div class="scroll-section">
-            <div class="main-container">
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\2048Icon.png" alt="I fucked your mom 2048 times" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\2048.html">2048</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\3SlicesIcon.png" alt="real men use 1 slice" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\3Slices.html">3 Slices</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\3Slices2Icon.png" alt="real men use 1 slice 2" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\3Slices2.html">3 Slices 2</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\AchievementUnlockedIcon.png" alt="achieve deez nuts" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\AchievementUnlocked.html">Achievement<br>Unlocked</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\AntbusterIcon.png" alt="THAT SON OF A BITCH THAT SON OF A BITCH" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\Antbuster.html">Antbuster</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\AwesomePlanesIcon.png" alt="9/11" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\AwesomePlanes.html">Awesome Planes</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\AwesomeTanksIcon.png" alt="lazer bitch" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\AwesomeTanks.html">Awesome Tanks</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\AwesomeTanks2Icon.png" alt="more toys >:)" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\AwesomeTanks2.html">Awesome Tanks 2</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\BigFLAPPYTowerVSTinySquareIcon.png" alt="flap" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\BigFLAPPYTowerVSTinySquare.html">Big FLAPPY Tower<br>VS Tiny Square</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\BigICETowerTinySquareIcon.png" alt="ICE IS NICE" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\BigICETowerTinySquare.html">Big ICE Tower<br>Tiny Square</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\BigNEONTowerVSTinySquareIcon.png" alt="everything looks better with neon" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\BigNEONTowerVSTinySquare.html">Big NEON Tower<br>VS Tiny Square</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\BigTowerTinySquareIcon.png" alt="the best one" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\BigTowerTinySquare.html">Big Tower<br>Tiny Square</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\BigTowerTinySquare2Icon.png" alt="actually the 6th because fuck you that's why" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\BigTowerTinySquare2.html">Big Tower<br>Tiny Square 2</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\BTDIcon.png" alt="ultrasonic tack shooter go brrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\BTD.html">Bloons<br>Tower Defense</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\BTD2Icon.png" alt="monke" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\BTD2.html">Bloons Tower<br>Defense 2</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\BTD3Icon.png" alt="m o n k e" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\BTD3.html">Bloons Tower<br>Defense 3</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\Connect4Icon.png" alt="if only you could connect with some BITCHES" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\Connect4.html">Connect 4</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\EscapeRoadIcon.png" alt="YOU'LL NEVER TAKE ME ALIVE" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\EscapeRoad.html">Escape Road</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\FNAWIcon.png" alt="spoopy" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\FiveNightsAtWinstons.html">Five Nights<br>at Winston's</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\GoogleSnakeIcon.png" alt="Goggle Snake" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\GoogleSnake.html">Google Snake</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\HongKong97Icon.png" alt="MOTHERFUCKING HONG KONG 97" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\HongKong97.html">Hong Kong 97</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\LearnToFlyIcon.png" alt="bouncing is bad" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\LearnToFly.html">Learn to Fly</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\LearnToFly2Icon.png" alt="BRICKBRICKBRICKBRICKBRICKBRICKBRICKBRICKBRICKBRICKBRICKBRICKBRICKBRICKBRICK" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\LearnToFly2.html">Learn to Fly 2</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\LearnToFly3Icon.png" alt="this is a spinoff" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\LearnToFly3.html">Learn to Fly 3</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\MinecraftClassicIcon.png" alt="this is your grandpa's minecraft" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\MinecraftClassic.html">Minecraft Classic</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\MooMooIcon.png" alt="beef stew with milk" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\MooMoo.html">Moo Moo</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\n-gonIcon.png" alt="n-gon & on & on & on again" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\n-gon.html">n-gon</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\NSMBIcon.png" alt="arrrrrrrrr" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\NewSuperMarioBros.html">New Super<br>Mario Bros.</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\Pac-ManIcon.png" alt="waka waka" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\Pac-Man.html">Pac-man</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\QuickDrawWithGoogleIcon.png" alt="DRAW DRAW DRAW" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\QuickDrawWithGoogle.html">Quick, Draw!</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\Run3Icon.png" alt="all the other kitties with the pumped up titties..." width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\Run3.html">Run 3</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\ShellShockersIcon.png" alt="shell shocked" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\SHellShockers.html">Shell Shockers</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\SlopeIcon.png" alt="why the fuck is it so glitchy" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\Slope.html">Slope</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\SmashKartsIcon.png" alt="you know who else got smashed" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\SmashKarts.html">Smash Karts</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\TetrisIcon.png" alt="Bm-ta-pt-tiBm-ta-Bm-pt-ta" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\Tetris.html">Tetris</a></div>
-                </div>
-                <div class="container">
-                    <div id="box1" class="box"><img src="..\Images\Wordle+Icon.png" alt="wordle but plus wow shocker" width="150" height="150"></div>
-                    <div id="box2" class="box"><a href="..\Pages\Subpages\Gamellection Subpages\Wordle+.html">Wordle+</a></div>
-                </div>
-            </div>
+    </nav>
+
+    <!-- Hero Search -->
+    <div class="hero">
+        <h1>GAMELLECTION</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search for games..." onkeyup="filterGames()">
+            <i class="ph-bold ph-magnifying-glass search-icon"></i>
         </div>
-        <div style="line-height:2250%;">
-            <br>
+    </div>
+
+    <!-- Game Grid -->
+    <div class="game-grid" id="gameGrid">
+        <!-- Games are injected via Javascript below for cleaner code -->
+        <div id="no-results">
+            <i class="ph-duotone ph-ghost" style="font-size: 3rem; margin-bottom: 10px;"></i><br>
+            No games found. Try a different search.
         </div>
-        <p class="small-centered-text">Created by The Wagonization, consisting of JackWagon885 
-        <br>
-        All credit goes to the respective owners. I only compile them in a list.
-        <br>
-        Fuck you Google</p>
-    </body>
-</HTML>
-<script src="..\yee.js"></script>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Created by The Wagonization (JackWagon885)</p>
+        <p style="opacity: 0.5; font-size: 0.7rem;">"I only compile them in a list. All credit to owners."</p>
+    </footer>
+
+    <!-- Music Widget -->
+    <div class="music-toggle" onclick="togglePlayer()">
+        <i class="ph-fill ph-music-notes"></i>
+    </div>
+
+    <div class="music-player" id="musicPlayer">
+        <div class="player-header">
+            <span>NOW PLAYING</span>
+            <i class="ph-bold ph-x" style="cursor: pointer" onclick="togglePlayer()"></i>
+        </div>
+        <div class="song-info">
+            <span class="song-title">Background Vibes</span>
+            <span style="font-size: 0.8rem; color: #666;">WagonOS Audio</span>
+        </div>
+        <div class="controls">
+            <button class="ctrl-btn"><i class="ph-fill ph-skip-back"></i></button>
+            <button class="ctrl-btn play-btn" onclick="togglePlay()"><i class="ph-fill ph-play" id="playIcon"></i></button>
+            <button class="ctrl-btn"><i class="ph-fill ph-skip-forward"></i></button>
+        </div>
+        <input type="range" min="0" max="1" step="0.1" oninput="document.getElementById('bg-music').volume = this.value">
+        
+        <!-- Quick Load Song -->
+        <input type="text" id="songUrl" placeholder="MP3 URL..." style="width: 100%; margin-top: 15px; background: rgba(0,0,0,0.3); border: none; padding: 5px; color: white; border-radius: 4px; font-size: 0.8rem;">
+        <button onclick="loadSong()" style="width: 100%; margin-top: 5px; background: var(--secondary); border: none; color: white; padding: 5px; border-radius: 4px; cursor: pointer;">Load Custom Song</button>
+    </div>
+
+    <script>
+        // --- 1. Game Data (The Engine) ---
+        // This array replaces the messy HTML. Add new games here easily.
+        const games = [
+            { name: "2048", url: "../Pages/Subpages/Gamellection Subpages/2048.html", img: "../Images/2048Icon.png" },
+            { name: "3 Slices", url: "../Pages/Subpages/Gamellection Subpages/3Slices.html", img: "../Images/3SlicesIcon.png" },
+            { name: "3 Slices 2", url: "../Pages/Subpages/Gamellection Subpages/3Slices2.html", img: "../Images/3Slices2Icon.png" },
+            { name: "Achievement Unlocked", url: "../Pages/Subpages/Gamellection Subpages/AchievementUnlocked.html", img: "../Images/AchievementUnlockedIcon.png" },
+            { name: "Antbuster", url: "../Pages/Subpages/Gamellection Subpages/Antbuster.html", img: "../Images/AntbusterIcon.png" },
+            { name: "Awesome Planes", url: "../Pages/Subpages/Gamellection Subpages/AwesomePlanes.html", img: "../Images/AwesomePlanesIcon.png" },
+            { name: "Awesome Tanks", url: "../Pages/Subpages/Gamellection Subpages/AwesomeTanks.html", img: "../Images/AwesomeTanksIcon.png" },
+            { name: "Awesome Tanks 2", url: "../Pages/Subpages/Gamellection Subpages/AwesomeTanks2.html", img: "../Images/AwesomeTanks2Icon.png" },
+            { name: "Big Tower Tiny Square", url: "../Pages/Subpages/Gamellection Subpages/BigTowerTinySquare.html", img: "../Images/BigTowerTinySquareIcon.png" },
+            { name: "Big FLAPPY Tower", url: "../Pages/Subpages/Gamellection Subpages/BigFLAPPYTowerVSTinySquare.html", img: "../Images/BigFLAPPYTowerVSTinySquareIcon.png" },
+            { name: "Big ICE Tower", url: "../Pages/Subpages/Gamellection Subpages/BigICETowerTinySquare.html", img: "../Images/BigICETowerTinySquareIcon.png" },
+            { name: "Big NEON Tower", url: "../Pages/Subpages/Gamellection Subpages/BigNEONTowerVSTinySquare.html", img: "../Images/BigNEONTowerVSTinySquareIcon.png" },
+            { name: "Bloons TD 1", url: "../Pages/Subpages/Gamellection Subpages/BTD.html", img: "../Images/BTDIcon.png" },
+            { name: "Bloons TD 2", url: "../Pages/Subpages/Gamellection Subpages/BTD2.html", img: "../Images/BTD2Icon.png" },
+            { name: "Bloons TD 3", url: "../Pages/Subpages/Gamellection Subpages/BTD3.html", img: "../Images/BTD3Icon.png" },
+            { name: "Connect 4", url: "../Pages/Subpages/Gamellection Subpages/Connect4.html", img: "../Images/Connect4Icon.png" },
+            { name: "Escape Road", url: "../Pages/Subpages/Gamellection Subpages/EscapeRoad.html", img: "../Images/EscapeRoadIcon.png" },
+            { name: "FNAF Winstons", url: "../Pages/Subpages/Gamellection Subpages/FiveNightsAtWinstons.html", img: "../Images/FNAWIcon.png" },
+            { name: "Google Snake", url: "../Pages/Subpages/Gamellection Subpages/GoogleSnake.html", img: "../Images/GoogleSnakeIcon.png" },
+            { name: "Hong Kong 97", url: "../Pages/Subpages/Gamellection Subpages/HongKong97.html", img: "../Images/HongKong97Icon.png" },
+            { name: "Learn to Fly", url: "../Pages/Subpages/Gamellection Subpages/LearnToFly.html", img: "../Images/LearnToFlyIcon.png" },
+            { name: "Learn to Fly 2", url: "../Pages/Subpages/Gamellection Subpages/LearnToFly2.html", img: "../Images/LearnToFly2Icon.png" },
+            { name: "Learn to Fly 3", url: "../Pages/Subpages/Gamellection Subpages/LearnToFly3.html", img: "../Images/LearnToFly3Icon.png" },
+            { name: "Minecraft Classic", url: "../Pages/Subpages/Gamellection Subpages/MinecraftClassic.html", img: "../Images/MinecraftClassicIcon.png" },
+            { name: "Moo Moo", url: "../Pages/Subpages/Gamellection Subpages/MooMoo.html", img: "../Images/MooMooIcon.png" },
+            { name: "n-gon", url: "../Pages/Subpages/Gamellection Subpages/n-gon.html", img: "../Images/n-gonIcon.png" },
+            { name: "New Super Mario Bros", url: "../Pages/Subpages/Gamellection Subpages/NewSuperMarioBros.html", img: "../Images/NSMBIcon.png" },
+            { name: "Pac-Man", url: "../Pages/Subpages/Gamellection Subpages/Pac-Man.html", img: "../Images/Pac-ManIcon.png" },
+            { name: "Quick Draw", url: "../Pages/Subpages/Gamellection Subpages/QuickDrawWithGoogle.html", img: "../Images/QuickDrawWithGoogleIcon.png" },
+            { name: "Run 3", url: "../Pages/Subpages/Gamellection Subpages/Run3.html", img: "../Images/Run3Icon.png" },
+            { name: "Shell Shockers", url: "../Pages/Subpages/Gamellection Subpages/SHellShockers.html", img: "../Images/ShellShockersIcon.png" },
+            { name: "Slope", url: "../Pages/Subpages/Gamellection Subpages/Slope.html", img: "../Images/SlopeIcon.png" },
+            { name: "Smash Karts", url: "../Pages/Subpages/Gamellection Subpages/SmashKarts.html", img: "../Images/SmashKartsIcon.png" },
+            { name: "Tetris", url: "../Pages/Subpages/Gamellection Subpages/Tetris.html", img: "../Images/TetrisIcon.png" },
+            { name: "Wordle+", url: "../Pages/Subpages/Gamellection Subpages/Wordle+.html", img: "../Images/Wordle+Icon.png" }
+        ];
+
+        // --- 2. Render Logic ---
+        const grid = document.getElementById('gameGrid');
+        const noResults = document.getElementById('no-results');
+
+        function renderGames(filterText = '') {
+            // clear existing non-message elements
+            Array.from(grid.children).forEach(child => {
+                if(child.id !== 'no-results') grid.removeChild(child);
+            });
+
+            let matches = 0;
+            const term = filterText.toLowerCase();
+
+            games.forEach(game => {
+                if (game.name.toLowerCase().includes(term)) {
+                    matches++;
+                    const card = document.createElement('a');
+                    card.className = 'game-card';
+                    card.href = game.url;
+                    
+                    card.innerHTML = `
+                        <button class="fav-btn" onclick="event.preventDefault(); toggleFav(this)"><i class="ph-bold ph-heart"></i></button>
+                        <div class="img-wrapper">
+                            <img src="${game.img}" alt="${game.name}" onerror="this.src='https://via.placeholder.com/150?text=No+Img'">
+                        </div>
+                        <div class="card-info">
+                            <div class="card-title">${game.name}</div>
+                        </div>
+                    `;
+                    grid.insertBefore(card, noResults);
+                }
+            });
+
+            noResults.style.display = matches === 0 ? 'block' : 'none';
+        }
+
+        // --- 3. Search Logic ---
+        function filterGames() {
+            const input = document.getElementById('searchInput');
+            renderGames(input.value);
+        }
+
+        // --- 4. Music Player Logic ---
+        const audio = document.getElementById('bg-music');
+        const player = document.getElementById('musicPlayer');
+        const playBtn = document.getElementById('playIcon');
+
+        function togglePlayer() {
+            player.classList.toggle('active');
+        }
+
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                playBtn.classList.replace('ph-play', 'ph-pause');
+            } else {
+                audio.pause();
+                playBtn.classList.replace('ph-pause', 'ph-play');
+            }
+        }
+
+        function loadSong() {
+            const url = document.getElementById('songUrl').value;
+            if(url) {
+                audio.src = url;
+                audio.play();
+                playBtn.classList.replace('ph-play', 'ph-pause');
+            }
+        }
+
+        function toggleFav(btn) {
+            btn.querySelector('i').classList.toggle('ph-fill');
+            btn.querySelector('i').classList.toggle('ph-bold');
+            btn.style.color = btn.style.color === 'red' ? 'white' : 'red';
+            btn.style.opacity = '1';
+        }
+
+        // Initialize
+        window.onload = () => {
+            renderGames();
+            // Load saved music from Config page if available
+            if(localStorage.getItem('savedSong')) {
+                audio.src = localStorage.getItem('savedSong');
+            }
+        };
+
+    </script>
+    <script src="../yee.js"></script>
+</body>
+</html>
