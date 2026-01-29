@@ -380,12 +380,45 @@
     <!-- Local Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Attempt Audio Play
-            const audio = document.getElementById('background-music');
-            if(audio) {
-                audio.volume = 0.3;
-                // Browsers often block this until interaction, handled by yee.js/Song.js usually
-                audio.play().catch(e => console.log("Audio waiting for interaction"));
+        // --- 4. Music Player Logic ---
+        const audio = document.getElementById('bg-music');
+        const player = document.getElementById('musicPlayer');
+        const playBtn = document.getElementById('playIcon');
+
+        function togglePlayer() {
+            player.classList.toggle('active');
+        }
+
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                playBtn.classList.replace('ph-play', 'ph-pause');
+            } else {
+                audio.pause();
+                playBtn.classList.replace('ph-pause', 'ph-play');
+            }
+        }
+
+        function loadSong() {
+            const url = document.getElementById('songUrl').value;
+            if(url) {
+                audio.src = url;
+                audio.play();
+                playBtn.classList.replace('ph-play', 'ph-pause');
+            }
+        }
+
+        function toggleFav(btn) {
+            btn.querySelector('i').classList.toggle('ph-fill');
+            btn.querySelector('i').classList.toggle('ph-bold');
+            btn.style.color = btn.style.color === 'red' ? 'white' : 'red';
+            btn.style.opacity = '1';
+        }
+
+        
+            // Load saved music from Config page if available
+            if(localStorage.getItem('savedSong')) {
+                audio.src = localStorage.getItem('savedSong');
             }
 
             // Stats Counter Animation
