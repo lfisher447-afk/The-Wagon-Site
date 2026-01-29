@@ -1,292 +1,621 @@
-<!DOCTYPE HTML>
-<HTML>
-    <head>
-        <title>Config | The Wagon Site</title>
-        <link rel="icon" type="image/x-icon" href="../images/JackWagonIcon.png">
-        <link rel="stylesheet" type="text/css" href="../stylez.css">
-        <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Yatra+One&display=swap" rel="stylesheet">
-        <script type="text/javascript">
-            (function(c,l,a,r,i,t,y){
-                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-            })(window, document, "clarity", "script", "oqwnloclrl");
-        </script>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Centered Small Text</title>
-        <style>
-            .small-centered-text {
-                font-size: 10px;
-                text-align: center;
-            }
-        </style>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Centered Text</title>
-        <style>
-            .centered-text {
-                text-align: center;
-            }
-        </style>
-        <title>Small Text</title>
-        <style>
-            .small-text {
-                font-size: 10px;
-            }
-        </style>
-        <style>
-            .indented {
-                margin-left: 20px;
-            }
-        </style>
-        <style>
-            .indented2 {
-                margin-left: 40px;
-            }
-        </style>
-        <style>
-            .code-box {
-                width: 100px;
-                height: 60px;
-                background-color: #000000;
-                border: 2px solid #ccc;
-                padding: 0;
-                margin: 0;
-                font-family: "Yatra One";
-                white-space: pre;
-                overflow: hidden;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: #ffffff;
-                font-size: 10px;
-                text-align: center;
-            }
-        </style>
-        <style>
-            .container {
-                display: flex;
-            }
-            .item {
-                flex: 1;
-            }
-            .code-box {
-                border: 1px solid #ccc;
-                padding: 10px;
-                margin-top: 20px;
-            }
-        </style>
-        <style>
-            .box-head {
-                width: 200px;
-                height: 100px;
-                border: 2px solid white;
-                padding: 0px;
-                margin: 1px;
-            }
-        </style>
-        <title>Box</title>
-        <style>
-            .box {
-                width: 200px;
-                height: 100px;
-                border: 2px solid white;
-                margin: 1px;
-            }
-        </style>
-    </head>
-    <audio id="background-music" autoplay loop></audio>
-    <body>
-        <img src="..\Images\cog.png" alt="cog" style="float: right; width:21px; height:21px;">
-        <p class=""><a href="..\Pages\Home.html">Home</a> | <a href="..\Pages\Navigation.html">All</a> | <a href="..\Pages\TheBypassing.html">The Bypassing</a> | <a href="..\Pages\Gamellection.html">Gamellection</a> | <a href="..\Pages\ProxList.html">ProxList</a> | <a href="..\Pages\Questions.html">Questions</a></p>
-        <hr>
-        <div class="box-head" style="float: right">
-            <h1 class="centered-text">Song</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WagonOS | Config Station</title>
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #00f2ff;
+            --secondary: #7000ff;
+            --bg-dark: #0a0a0a;
+            --glass: rgba(20, 20, 20, 0.6);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            --font-ui: 'Outfit', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+            --player-width: 320px;
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) transparent;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(112, 0, 255, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 242, 255, 0.15) 0%, transparent 40%);
+            font-family: var(--font-ui);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* --- Click Ripple Effect --- */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(0);
+            animation: ripple-anim 0.6s linear;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        @keyframes ripple-anim {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        /* --- Navbar --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -1px;
+        }
+        
+        .logo i { color: var(--primary); }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: white; text-shadow: 0 0 10px var(--primary); }
+
+        /* --- Grid Layout --- */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* --- Glass Cards --- */
+        .card {
+            background: var(--glass);
+            border: var(--glass-border);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(12px);
+            transition: transform 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+        }
+
+        /* --- 3D Color Picker --- */
+        .color-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            background: rgba(255,255,255,0.03);
+            padding: 10px;
+            border-radius: 12px;
+        }
+
+        .color-3d-wrapper {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            box-shadow: 
+                inset 2px 2px 5px rgba(255,255,255,0.4),
+                inset -2px -2px 5px rgba(0,0,0,0.5),
+                3px 3px 5px rgba(0,0,0,0.3);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .color-3d-wrapper:active { transform: scale(0.95); }
+
+        input[type="color"] {
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            display: block;
+        }
+
+        /* --- Inputs & Buttons --- */
+        .input-group { position: relative; margin-bottom: 15px; }
+        
+        input[type="text"], select {
+            width: 100%;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid #333;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: var(--font-code);
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(0,242,255,0.2); }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+        }
+
+        .btn:hover { filter: brightness(1.2); letter-spacing: 2px; }
+        .btn.danger { background: linear-gradient(135deg, #ff4444, #990000); }
+
+        /* --- Toggles --- */
+        .toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #333;
+            transition: .4s;
+            border-radius: 20px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px; width: 14px;
+            left: 3px; bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--primary); }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+        /* --- MUSIC PLAYER UI (The Request) --- */
+        .music-fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--glass);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0,242,255,0.3);
+            z-index: 2000;
+            transition: 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        .music-fab:hover { transform: scale(1.1) rotate(360deg); }
+
+        .music-container {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: var(--player-width);
+            background: rgba(10, 10, 10, 0.9);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(20px);
+            z-index: 1999;
+            transform-origin: bottom right;
+            transform: scale(0);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        }
+
+        .music-container.active { transform: scale(1); opacity: 1; }
+
+        .vinyl-art {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, #333, #000);
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            position: relative;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            border: 2px solid #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: spin 4s linear infinite;
+            animation-play-state: paused;
+        }
+
+        .vinyl-art.spinning { animation-play-state: running; }
+        .vinyl-art::after { content: ''; width: 20px; height: 20px; background: #000; border-radius: 50%; position: absolute; border: 2px solid #555; }
+        .vinyl-art i { font-size: 40px; color: #555; }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .track-info { text-align: center; margin-bottom: 15px; }
+        .track-title { font-weight: 700; color: white; display: block; margin-bottom: 5px; }
+        .track-artist { font-size: 0.8rem; color: #888; }
+
+        .controls { display: flex; justify-content: center; gap: 20px; align-items: center; margin-bottom: 15px; }
+        .ctrl-btn { background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem; transition: 0.2s; }
+        .ctrl-btn:hover { color: var(--primary); }
+        .play-btn { font-size: 2rem; color: var(--primary); }
+
+        .volume-slider { width: 100%; height: 4px; -webkit-appearance: none; background: #333; border-radius: 2px; outline: none; }
+        .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; background: white; border-radius: 50%; cursor: pointer; }
+
+        /* Floating Panic Button */
+        .panic-float { position: fixed; top: 100px; left: -10px; padding: 10px 20px 10px 30px; background: red; color: white; font-weight: bold; cursor: pointer; border-radius: 0 20px 20px 0; transition: 0.3s; z-index: 900; box-shadow: 5px 5px 15px rgba(0,0,0,0.5); }
+        .panic-float:hover { left: 0; padding-right: 40px; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Audio Element -->
+    <audio id="audio-core"></audio>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <i class="ph-bold ph-gear-six"></i>
+            WagonOS
         </div>
-        <div class="box" style="float: right; align-content: center">
-            <form id="Song-Form">
-                <input type="text" id="Song" placeholder="Crucified in Heaven" type="text">
-                <button type="submit">Enter</button>
-                <script>
-                    document.getElementById("Song-Form").addEventListener("submit", function(event) {
-                        event.preventDefault();
-                        const inputValue = document.getElementById("Song").value;
-                    });
-                </script>                
-            </form>
+        <div class="nav-links">
+            <a href="../Pages/Home.html">Home</a>
+            <a href="../Pages/Navigation.html">Games</a>
+            <a href="../Pages/ProxList.html">Proxy</a>
+            <span id="clock" style="margin-left: 20px; font-family: var(--font-code); color: var(--primary);">00:00</span>
         </div>
-        <div class="box-head" style="float: left">
-            <h1 class="centered-text">Cloaking</h1>
+    </nav>
+
+    <div class="panic-float" onclick="triggerPanic()">PANIC (`)</div>
+
+    <!-- Main Grid -->
+    <div class="dashboard">
+
+        <!-- 1. System Config -->
+        <div class="card">
+            <h2><i class="ph-bold ph-sliders-horizontal"></i> Visuals</h2>
+            
+            <div class="color-group">
+                <span>Accent Color</span>
+                <div class="color-3d-wrapper" style="background: var(--primary);">
+                    <input type="color" id="accentPicker" oninput="updateColor(this.value, '--primary')">
+                </div>
+            </div>
+
+            <div class="color-group">
+                <span>Secondary Color</span>
+                <div class="color-3d-wrapper" style="background: var(--secondary);">
+                    <input type="color" id="secPicker" oninput="updateColor(this.value, '--secondary')">
+                </div>
+            </div>
+
+            <div class="toggle-row">
+                <span>Click Ripple Effects</span>
+                <label class="switch">
+                    <input type="checkbox" id="rippleToggle" checked onchange="toggleRipple(this.checked)">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="toggle-row">
+                <span>Custom Cursor</span>
+                <label class="switch">
+                    <input type="checkbox" id="cursorToggle" onchange="toggleCursor(this.checked)">
+                    <span class="slider"></span>
+                </label>
+            </div>
         </div>
-        <div class="box" style="float: left">
-            <ul>
-                <li><a id="ND" href="..\aboutblank.html">about:blank</a></li>
-                <li><a id="ND" href="..\blbo.html">blob</a></li>
-                <li><a id="ND" href="https://the-wagonization.github.io/The-Wagon-Site/Pages/Config.html">N/A</a></li>
-            </ul>
+
+        <!-- 2. Panic & Security -->
+        <div class="card">
+            <h2><i class="ph-bold ph-siren"></i> Panic System</h2>
+            <div class="input-group">
+                <input type="text" id="PanicURL" placeholder="https://classroom.google.com">
+            </div>
+            <select id="presetSelect" onchange="document.getElementById('PanicURL').value = this.value">
+                <option value="">-- Quick Presets --</option>
+                <option value="https://classroom.google.com">Google Classroom</option>
+                <option value="https://drive.google.com">Google Drive</option>
+                <option value="about:blank">About:Blank</option>
+            </select>
+            <button class="btn" onclick="savePanic()">Save Destination</button>
+            <p style="font-size: 0.7rem; color: #888; text-align: center; margin-top: 10px;">Press '`' (Grave Accent) to trigger instantly.</p>
         </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <form id="Panic-Form" style="float: none">
-            <input type="text" id="PanicURL" placeholder="Panic Destination" type="text">
-            <button type="submit">Enter</button>
-            <script>
-                document.getElementById("Panic-Form").addEventListener("submit", function(event) {
-                    event.preventDefault();
-                    const inputValue = document.getElementById("PanicURL").value.trim();
-                    let PanicURL;
-                    if (inputValue === "Clever") {
-                        PanicURL = "https://clever.com/oauth/district-picker?channel=clever&client_id=4c63c1cf623dce82caac&confirmed=true&redirect_uri=https%3A%2F%2Fclever.com%2Fin%2Fauth_callback&response_type=code&state=e8fcacfe3d302f03afe6780be466418492065c8b032c7b0a8a932b4bd03f3903";
-                    } else if (inputValue === "Google Classroom") {
-                        PanicURL = "https://classroom.google.com/u/1/";
-                    } else if (inputValue === "Google Drive") {
-                        PanicURL = "https://drive.google.com/drive/u/0/my-drive";
-                    } else if (inputValue === "ReadingPlus") {
-                        PanicURL = "https://student.readingplus.com/seereader/api/sec/login";
-                    } else if (inputValue === "Schoology") {
-                        PanicURL = "https://schoology.spartanburg4.org/login/";
-                    } else {
-                        PanicURL = inputValue || "https://classroom.google.com/u/1/";
-                    }
-                    localStorage.setItem("p", PanicURL);
-                });
-            </script>
-        </form>
-        <details>
-            <summary>Text Settings</summary>
-            <form id="Font-Form" style="float: none">
-                <input type="text" id="PFont" placeholder="Font (Primary)" type="text">
-                <button type="submit">Enter</button>
-                <script>
-                    document.getElementById("Font-Form").addEventListener("submit", function(event) {
-                        event.preventDefault();
-                        const inputValue = document.getElementById("PFont").value.trim();
-                        const PFont = inputValue;
-                        localStorage.setItem("PFont", PFont);
-                        document.documentElement.style.setProperty('--Font', PFont);
-                    });
-                </script>
-            </form>
-            <form id="Font2-Form" style="float: none">
-                <input type="text" id="SFont" placeholder="Font (Secondary)" type="text">
-                <button type="submit">Enter</button>
-                <script>
-                    document.getElementById("Font2-Form").addEventListener("submit", function(event) {
-                        event.preventDefault();
-                        const inputValue = document.getElementById("SFont").value.trim();
-                        const SFont = inputValue;
-                        localStorage.setItem("SFont", SFont);
-                        document.documentElement.style.setProperty('--Font2', SFont);
-                    });
-                </script>
-            </form>
-            <form id="LinkColor-Form" style="float: none">
-                <input type="text" id="LColor" placeholder="Link Color" type="text">
-                <button type="submit">Enter</button>
-                <script>
-                    document.getElementById("LinkColor-Form").addEventListener("submit", function(event) {
-                        event.preventDefault();
-                        const inputValue = document.getElementById("LColor").value.trim();
-                        const LinkColor = inputValue;
-                        localStorage.setItem("TColor", LinkColor);
-                        document.documentElement.style.setProperty('--LinkColor', LinkColor);
-                    });
-                </script>
-            </form>
-            <form id="LinkColorHover-Form" style="float: none">
-                <input type="text" id="LHColor" placeholder="Link Color (Hover)" type="text">
-                <button type="submit">Enter</button>
-                <script>
-                    document.getElementById("LinkColorHover-Form").addEventListener("submit", function(event) {
-                        event.preventDefault();
-                        const inputValue = document.getElementById("LHColor").value.trim();
-                        const LinkColorHover = inputValue;
-                        localStorage.setItem("LHColor", LinkColorHover);
-                        document.documentElement.style.setProperty('--LinkColorHover', LinkColorHover);
-                    });
-                </script>
-            </form>
-            <form id="TextSize-Form" style="float: none">
-                <input type="text" id="TSize" placeholder="Text Size" type="text">
-                <button type="submit">Enter</button>
-                <script>
-                    document.getElementById("TextSize-Form").addEventListener("submit", function(event) {
-                        event.preventDefault();
-                        const inputValue = document.getElementById("TSize").value.trim();
-                        const TextSize = inputValue;
-                        localStorage.setItem("TSize", TextSize);
-                        document.documentElement.style.setProperty('--TextSize', TextSize);
-                    });
-                </script>
-            </form>
-        </details>
-        <details>
-            <summary>Background Color</summary>
-            <form id="Grad1-Form" style="float: none">
-                <input type="text" id="GradStop1" placeholder="Gradient Stop 1 Color" type="text">
-                <button type="submit">Enter</button>
-                <script>
-                    document.getElementById("Grad1-Form").addEventListener("submit", function(event) {
-                        event.preventDefault();
-                        const inputValue = document.getElementById("GradStop1").value.trim();
-                        const GradStop1 = inputValue
-                        localStorage.setItem("GradStop1Color", GradStop1);
-                        document.documentElement.style.setProperty('--GradStop1', GradStop1);
-                    });
-                </script>
-            </form>
-            <form id="Grad2-Form" style="float: none">
-                <input type="text" id="GradStop2" placeholder="Gradient Stop 2 Color" type="text">
-                <button type="submit">Enter</button>
-                <script>
-                    document.getElementById("Grad2-Form").addEventListener("submit", function(event) {
-                        event.preventDefault();
-                        const inputValue = document.getElementById("GradStop2").value.trim();
-                        const GradStop2 = inputValue
-                        localStorage.setItem("GradStop2Color", GradStop2);
-                        document.documentElement.style.setProperty('--GradStop2', GradStop2);
-                    });
-                </script>
-            </form>
-            <form id="Grad3-Form" style="float: none">
-                <input type="text" id="GradStop3" placeholder="Gradient Stop 3 Color" type="text">
-                <button type="submit">Enter</button>
-                <script>
-                    document.getElementById("Grad3-Form").addEventListener("submit", function(event) {
-                        event.preventDefault();
-                        const inputValue = document.getElementById("GradStop3").value.trim();
-                        const GradStop3 = inputValue
-                        localStorage.setItem("GradStop3Color", GradStop3);
-                        document.documentElement.style.setProperty('--GradStop3', GradStop3);
-                    });
-                </script>
-            </form>
-            <form id="Grad4-Form" style="float: none">
-                <input type="text" id="GradStop4" placeholder="Gradient Stop 4 Color" type="text">
-                <button type="submit">Enter</button>
-                <script>
-                    document.getElementById("Grad4-Form").addEventListener("submit", function(event) {
-                        event.preventDefault();
-                        const inputValue = document.getElementById("GradStop4").value.trim();
-                        const GradStop4 = inputValue
-                        localStorage.setItem("GradStop4Color", GradStop4);
-                        document.documentElement.style.setProperty('--GradStop4', GradStop4);
-                    });
-                </script>
-            </form>
-        </details>
-        <div style="line-height:2250%;">
-            <br>
+
+        <!-- 3. Cloaking Tools -->
+        <div class="card">
+            <h2><i class="ph-bold ph-mask-happy"></i> Cloaking</h2>
+            <div class="toggle-row">
+                <span>Auto-Scroll Title</span>
+                <label class="switch">
+                    <input type="checkbox" id="scrollTitle" onchange="toggleTitleScroll(this.checked)">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+                <button class="btn" style="background: #333; margin:0;" onclick="cloak('Google Drive', 'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png')">Drive</button>
+                <button class="btn" style="background: #333; margin:0;" onclick="cloak('Classroom', 'https://ssl.gstatic.com/classroom/favicon.png')">Class</button>
+            </div>
+            
+            <button class="btn" style="margin-top: 15px;" onclick="enableEditMode()">Activate "Edit Mode"</button>
+            <p style="font-size: 0.7rem; color: #666;">Edit Mode allows you to change text on any page you visit (until reload).</p>
         </div>
-        <p class="small-centered-text">Created by The Wagonization, consisting of JackWagon885 
-        <br>
-        All credit goes to the respective owners. I only compile them in a list. The audio was not made by me either.
-        <br>
-        setting deez nuts in your mouth</p>
-    </body>
-</HTML>
-<script src="..\yee.js"></script>
+
+        <!-- 4. Data -->
+        <div class="card">
+            <h2><i class="ph-bold ph-hard-drives"></i> Data</h2>
+            <button class="btn" onclick="exportConfig()">Export JSON</button>
+            <button class="btn danger" onclick="localStorage.clear(); location.reload();">Factory Reset</button>
+        </div>
+    </div>
+
+    <!-- Music Player Interface -->
+    
+    <!-- Floating Toggle Button -->
+    <div class="music-fab" onclick="toggleMusicUI()">
+        <i class="ph-fill ph-music-notes"></i>
+    </div>
+
+    <!-- The Player UI (Popup) -->
+    <div class="music-container" id="musicUI">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <span style="font-size: 0.8rem; color: #888;">WAGON TUNES</span>
+            <i class="ph-bold ph-x" style="cursor: pointer;" onclick="toggleMusicUI()"></i>
+        </div>
+
+        <div class="vinyl-art" id="albumArt">
+            <i class="ph-duotone ph-disc"></i>
+        </div>
+
+        <div class="track-info">
+            <span class="track-title" id="songTitle">Select a Track</span>
+            <span class="track-artist">Wagon System Audio</span>
+        </div>
+
+        <!-- Song Input -->
+        <div style="margin-bottom: 15px;">
+             <input type="text" id="songInput" placeholder="Paste MP3 URL here..." style="font-size: 0.8rem; padding: 8px;">
+             <button class="btn" style="padding: 5px; font-size: 0.7rem; margin-top: 5px;" onclick="loadSong()">Load URL</button>
+        </div>
+
+        <div class="controls">
+            <button class="ctrl-btn"><i class="ph-fill ph-skip-back"></i></button>
+            <button class="ctrl-btn play-btn" onclick="togglePlay()"><i class="ph-fill ph-play" id="playIcon"></i></button>
+            <button class="ctrl-btn"><i class="ph-fill ph-skip-forward"></i></button>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="ph-fill ph-speaker-low" style="font-size: 0.8rem;"></i>
+            <input type="range" class="volume-slider" min="0" max="1" step="0.1" oninput="setVolume(this.value)">
+            <i class="ph-fill ph-speaker-high" style="font-size: 0.8rem;"></i>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. CORE CONFIG ---
+        const audio = document.getElementById('audio-core');
+        const playIcon = document.getElementById('playIcon');
+        const albumArt = document.getElementById('albumArt');
+        let isRippleEnabled = true;
+
+        window.onload = () => {
+            loadSettings();
+            setInterval(() => {
+                document.getElementById('clock').innerText = new Date().toLocaleTimeString();
+            }, 1000);
+        };
+
+        // --- 2. MUSIC PLAYER LOGIC ---
+        function toggleMusicUI() {
+            document.getElementById('musicUI').classList.toggle('active');
+        }
+
+        function loadSong() {
+            const url = document.getElementById('songInput').value;
+            if(url) {
+                audio.src = url;
+                document.getElementById('songTitle').innerText = "Custom Track";
+                togglePlay();
+                localStorage.setItem('savedSong', url);
+            }
+        }
+
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                playIcon.classList.replace('ph-play', 'ph-pause');
+                albumArt.classList.add('spinning');
+            } else {
+                audio.pause();
+                playIcon.classList.replace('ph-pause', 'ph-play');
+                albumArt.classList.remove('spinning');
+            }
+        }
+
+        function setVolume(val) {
+            audio.volume = val;
+        }
+
+        // --- 3. VISUALS & TOOLS ---
+        function updateColor(val, varName) {
+            document.documentElement.style.setProperty(varName, val);
+            // Update the wrapper background for the "3D" effect
+            if(varName === '--primary') document.getElementById('accentPicker').parentElement.style.background = val;
+            if(varName === '--secondary') document.getElementById('secPicker').parentElement.style.background = val;
+            localStorage.setItem(varName, val);
+        }
+
+        function toggleRipple(state) {
+            isRippleEnabled = state;
+            localStorage.setItem('ripple', state);
+        }
+
+        // Ripple Effect Listener
+        document.addEventListener('click', function(e) {
+            if(!isRippleEnabled) return;
+            
+            let ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            ripple.style.left = e.clientX + "px";
+            ripple.style.top = e.clientY + "px";
+            document.body.appendChild(ripple);
+            
+            setTimeout(() => { ripple.remove(); }, 600);
+        });
+
+        function toggleCursor(state) {
+            if(state) {
+                document.body.style.cursor = "crosshair";
+            } else {
+                document.body.style.cursor = "default";
+            }
+        }
+
+        function enableEditMode() {
+            document.designMode = 'on';
+            alert("Edit Mode Active: Click text to change it.");
+        }
+
+        // --- 4. PANIC & CLOAKING ---
+        function triggerPanic() {
+            const url = localStorage.getItem('panicURL') || 'https://classroom.google.com';
+            window.location.replace(url);
+        }
+
+        function savePanic() {
+            const url = document.getElementById('PanicURL').value;
+            localStorage.setItem('panicURL', url);
+            alert("Panic URL Saved");
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if(e.key === '`') triggerPanic();
+        });
+
+        function cloak(title, icon) {
+            document.title = title;
+            let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+            link.type = 'image/x-icon';
+            link.rel = 'shortcut icon';
+            link.href = icon;
+            document.head.appendChild(link);
+        }
+
+        // Title Scroller
+        let scrollInterval;
+        function toggleTitleScroll(state) {
+            if(state) {
+                const msg = " Wagon Config - Stealth Mode ";
+                let pos = 0;
+                scrollInterval = setInterval(() => {
+                    document.title = msg.substring(pos, msg.length) + msg.substring(0, pos);
+                    pos++;
+                    if(pos > msg.length) pos = 0;
+                }, 200);
+            } else {
+                clearInterval(scrollInterval);
+                document.title = "WagonOS | Config Station";
+            }
+        }
+
+        // --- 5. SYSTEM LOAD ---
+        function loadSettings() {
+            // Colors
+            const p = localStorage.getItem('--primary');
+            if(p) { updateColor(p, '--primary'); document.getElementById('accentPicker').value = p; }
+            
+            const s = localStorage.getItem('--secondary');
+            if(s) { updateColor(s, '--secondary'); document.getElementById('secPicker').value = s; }
+
+            // Panic
+            if(localStorage.getItem('panicURL')) document.getElementById('PanicURL').value = localStorage.getItem('panicURL');
+
+            // Song
+            if(localStorage.getItem('savedSong')) {
+                document.getElementById('songInput').value = localStorage.getItem('savedSong');
+            }
+        }
+
+        function exportConfig() {
+            const data = JSON.stringify(localStorage);
+            const blob = new Blob([data], {type: 'text/json'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'wagon-config.json';
+            a.click();
+        }
+    </script>
+</body>
+</html>
