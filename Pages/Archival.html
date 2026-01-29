@@ -1,84 +1,111 @@
-<!DOCTYPE HTML>
-<HTML>
-    <head>
-        <title>A̶̳̥̲̯̙̪̠̹̟̯͉͊̚ȑ̶͚̝̮͓̼͂c̵̹͔̲͕͕͙̙̙͎̹̔͒͋͋̿̆͂͋̈́̕͜͠͠h̷̲͍͎̎͂͛̇̓̂͝į̸̨̠̱̫̟̊̅͊̔͘̕v̸̦̞̪̖̺͑̃̓́̿̒͑̾̚̕͝a̶̢͎͖͈͚̖̦͇̓́̈́͊͗̓̚͜͝͝ļ̷̭̱͉̟̣̰̝͚̳̩̬̻̏͛͂͌̕ | The Wagon Site</title>
-        <link rel="stylesheet" type="text/css" href="../stylez.css">
-        <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Yatra+One&display=swap" rel="stylesheet">
-        <script type="text/javascript">
-            (function(c,l,a,r,i,t,y){
-                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-            })(window, document, "clarity", "script", "oqwnloclrl");
-        </script>
-        <title>Centered Small Text</title>
-        <style>
-            .small-centered-text {
-                font-size: 10px;
-                text-align: center;
-            }
-        </style>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Centered Text</title>
-        <style>
-            .centered-text {
-                text-align: center;
-            }
-        </style>
-        <title>Small Text</title>
-        <style>
-            .small-text {
-                font-size: 10px;
-            }
-        </style>
-        <style>
-            .indented {
-                margin-left: 20px;
-            }
-        </style>
-        <style>
-            .indented2 {
-                margin-left: 40px;
-            }
-        </style>
-    </head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A̶̳̥̲̯̙̪̠̹̟̯͉͊̚ȑ̶͚̝̮͓̼͂c̵̹͔̲͕͕͙̙̙͎̹̔͒͋͋̿̆͂͋̈́̕͜͠͠h̷̲͍͎̎͂͛̇̓̂͝į̸̨̠̱̫̟̊̅͊̔͘̕v̸̦̞̪̖̺͑̃̓́̿̒͑̾̚̕͝a̶̢͎͖͈͚̖̦͇̓́̈́͊͗̓̚͜͝͝ļ̷̭̱͉̟̣̰̝͚̳̩̬̻̏͛͂͌̕ | The Wagon Site</title>
+    <link rel="stylesheet" type="text/css" href="../stylez.css">
+    <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&family=Yatra+One&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        /* Local Glitch Effects */
+        .glitch-wrapper { position: relative; display: inline-block; }
+        .glitch-wrapper::before, .glitch-wrapper::after {
+            content: attr(data-text);
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--c-void);
+        }
+        .glitch-wrapper::before { left: 2px; text-shadow: -1px 0 #ff00c1; clip: rect(44px, 450px, 56px, 0); animation: glitch-anim 5s infinite linear alternate-reverse; }
+        .glitch-wrapper::after { left: -2px; text-shadow: -1px 0 #00fff9; clip: rect(44px, 450px, 56px, 0); animation: glitch-anim2 5s infinite linear alternate-reverse; }
+        @keyframes glitch-anim {
+            0% { clip: rect(38px, 9999px, 81px, 0); }
+            20% { clip: rect(8px, 9999px, 8px, 0); }
+            40% { clip: rect(59px, 9999px, 1px, 0); }
+            60% { clip: rect(25px, 9999px, 98px, 0); }
+            80% { clip: rect(66px, 9999px, 62px, 0); }
+            100% { clip: rect(31px, 9999px, 9px, 0); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip: rect(21px, 9999px, 2px, 0); }
+            20% { clip: rect(93px, 9999px, 52px, 0); }
+            40% { clip: rect(5px, 9999px, 20px, 0); }
+            60% { clip: rect(38px, 9999px, 83px, 0); }
+            80% { clip: rect(26px, 9999px, 73px, 0); }
+            100% { clip: rect(2px, 9999px, 5px, 0); }
+        }
+        
+        .secure-feed {
+            border: 1px solid #ff4444;
+            position: relative;
+            padding: 5px;
+            background: rgba(50, 0, 0, 0.3);
+        }
+        .rec-indicator {
+            position: absolute; top: 10px; right: 10px;
+            color: #ff4444; font-family: monospace; font-weight: bold;
+            animation: blink 1s infinite; z-index: 10;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+    </style>
+</head>
+<body>
+    <div class="bg-void"></div>
+    <div class="bg-noise" style="opacity: 0.15;"></div>
+    <div class="scanline"></div>
     <audio id="background-music" src="..\Audio\GhostHouseTheme.mp3" autoplay loop></audio>
-    <body>
-        <b><i>"Forgotten, but not lost."</i></b>
-    </body>
-</HTML>
-<script src="..\yee.js"></script>
-<script><details>
-    <searchi>Any</searchi>
-    <searchi>OS;Unenrollment</searchi>
-    <searchi>Powerwash</searchi>
-    <searchi></searchi>
-    <summary><b id="CRSH2TTY">CRSH2TTY</b></summary>
-    <p class="small-text">N/A :0
-    <br>
-    Unenrolls your Chromebook, removing ALL restrictions. Works on every Chromebook.
-    <br>
-    Chrome OS-based exploit.</p>
-    <details>
-        <summary>CRSH2TTY.mp4</summary>
-        <video width="640" height="480" controls> <source src="video.mp4" type="video/mp4">Looks like your browser is a shit of piece.</video>
-    </details>
-    <br>
-    1: Powerwash on the login screen (Ctrl+Shift+Alt+R).
-    <br>
-    2: Proceed through setup.
-    <br>
-    3: When it starts to enroll, wait 2 seconds then restart (Power+Refresh).
-    <br>
-    4: When it starts to enroll again, wait 2 seconds then enter Recovery Mode (Esc+Refresh+Power) then power off.
-    <br>
-    5: Leave it off for <i>at least</i> 15 hours.
-    <br>
-    6: Enable "MAC Address Randomization" in chrome://flags to cloak yourself.
-    <br>
-    <br>
-    Now that you're unenrolled, you won't have any kiosk apps.
-    <br>
-    <p class="small-text"><b><i>This exploit was discovered by kelpseastem & Entrpix on GitHub.</i></b></p>
-</details></script>
+
+    <div class="interface-container" style="max-width: 700px;">
+        
+        <header style="text-align: center; margin-bottom: 40px;">
+            <h1 class="hero-title glitch-wrapper" data-text="ARCHIVES" style="font-size: 4rem; color: #ff4444;">ARCHIVES</h1>
+            <p style="font-family: var(--font-mono); color: var(--c-text-dim); letter-spacing: 2px;">"FORGOTTEN, BUT NOT LOST."</p>
+        </header>
+
+        <div class="glass-panel" style="border-color: rgba(255, 68, 68, 0.3);">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                <div>
+                    <h2 style="font-family: var(--font-display); font-size: 2rem; color: #fff; margin-bottom: 5px;">CRSH2TTY</h2>
+                    <span style="font-family: var(--font-mono); color: #ff4444; font-size: 0.8rem;">STATUS: PATCHED // LEGACY EXPLOIT</span>
+                </div>
+                <div style="text-align: right;">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ff4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3m-3-3l-3 3"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div style="margin: 20px 0; border-left: 2px solid #ff4444; padding-left: 15px; color: #ccc;">
+                <p>A chrome-based exploit that completely unenrolls the device, removing all administrative restrictions. While patched on newer versions, it remains a historical artifact of the unenrollment era.</p>
+            </div>
+
+            <div class="secure-feed">
+                <div class="rec-indicator">● REC [ARCHIVE_FOOTAGE]</div>
+                <video width="100%" height="auto" controls style="display: block; opacity: 0.8;">
+                    <source src="video.mp4" type="video/mp4">
+                    [ERR: VIDEO_DECRYPT_FAILED]
+                </video>
+            </div>
+
+            <div style="margin-top: 25px; background: #000; padding: 20px; border-radius: 6px; border: 1px solid #333; font-family: var(--font-mono); font-size: 0.9rem; color: #0f0;">
+                <p style="color: #ff4444; margin-bottom: 10px;">> EXECUTION_STEPS:</p>
+                <ol style="margin-left: 20px; color: #aaa;">
+                    <li>Initiate Powerwash sequence [Ctrl+Alt+Shift+R].</li>
+                    <li>Proceed. Upon enrollment check, Restart [Power+Refresh].</li>
+                    <li>Upon second check, Enter Recovery [Esc+Refresh+Power].</li>
+                    <li>Power Down. Wait >15 hours for RAM flush.</li>
+                    <li>Boot. Enable MAC Randomization cloaking.</li>
+                </ol>
+            </div>
+            
+            <p style="margin-top: 15px; text-align: right; font-family: var(--font-mono); font-size: 0.75rem; opacity: 0.5;">
+                DISCOVERY: kelpseastem & Entrpix
+            </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="../Pages/Home.html" class="action-link" style="border-color: #ff4444; color: #ff4444;">← Return to Reality</a>
+        </div>
+
+    </div>
+    <script src="..\yee.js"></script>
+</body>
+</html>
