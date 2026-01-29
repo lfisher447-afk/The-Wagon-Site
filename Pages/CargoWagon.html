@@ -1,84 +1,314 @@
-<!DOCTYPE HTML>
-<HTML>
-    <head>
-        <title>CargoWagon | The Wagon Site</title>
-        <link rel="icon" type="image/x-icon" href="../images/JackWagonIcon.png">
-        <link rel="stylesheet" type="text/css" href="../stylez.css">
-        <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Yatra+One&display=swap" rel="stylesheet">
-        <script type="text/javascript">
-            (function(c,l,a,r,i,t,y){
-                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-            })(window, document, "clarity", "script", "oqwnloclrl");
-        </script>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Centered Small Text</title>
-        <style>
-            .small-centered-text {
-                font-size: 10px;
-                text-align: center;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Secure File Repository - CargoWagon">
+    
+    <title>CargoWagon | The Wagon Site</title>
+    
+    <!-- Unified Assets -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&family=Yatra+One&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../Images/JackWagonIcon.png">
+    <link rel="stylesheet" type="text/css" href="../stylez.css">
+
+    <style>
+        :root {
+            --c-html: #e34c26;
+            --c-exe: #0078d4;
+            --c-link: #a855f7;
+            --c-bg-card: rgba(15, 15, 20, 0.8);
+        }
+
+        body {
+            background-color: #050505;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Header / Status --- */
+        .repo-header {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            width: 100%;
+        }
+
+        .repo-title {
+            font-family: 'Yatra One', cursive;
+            font-size: 3rem;
+            margin: 0;
+            background: linear-gradient(90deg, #fff, var(--c-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .repo-status {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
+
+        /* --- Search & Filter --- */
+        .controls {
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+            padding: 0 1.5rem;
+            width: 100%;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            background: var(--c-bg-card);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Eagle Lake';
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--c-accent);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
+        }
+
+        /* --- File Grid --- */
+        .file-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem 4rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        /* File Card Item */
+        .file-card {
+            background: var(--c-bg-card);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .file-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--c-accent);
+            background: rgba(25, 25, 30, 0.9);
+        }
+
+        .file-card::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 40px; height: 40px;
+            background: linear-gradient(225deg, rgba(255,255,255,0.1) 50%, transparent 50%);
+        }
+
+        .file-info h3 {
+            margin: 0 0 0.5rem 0;
+            font-family: 'Yatra One';
+            font-size: 1.4rem;
+            color: #fff;
+        }
+
+        .file-meta {
+            font-size: 0.75rem;
+            font-family: 'Fira Code', monospace;
+            color: #888;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .tag-type[data-type="HTML"] { color: var(--c-html); }
+        .tag-type[data-type="EXE"] { color: var(--c-exe); }
+        .tag-type[data-type="LINK"] { color: var(--c-link); }
+
+        .dl-btn {
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 6px;
+            font-family: 'Eagle Lake';
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .dl-btn:hover {
+            background: #fff;
+            color: #000;
+            font-weight: bold;
+        }
+
+        /* Empty State */
+        #no-results {
+            grid-column: 1/-1;
+            text-align: center;
+            padding: 4rem;
+            color: #444;
+            font-family: 'Fira Code';
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nav -->
+    <nav class="glass-nav">
+        <div class="nav-brand">CargoWagon</div>
+        <ul class="nav-links">
+            <li><a href="../Pages/Home.html">Home</a></li>
+            <li><a href="../Pages/Navigation.html">All</a></li>
+            <li><a href="../Pages/TheBypassing.html">Bypassing</a></li>
+            <li><a href="../Pages/ProxList.html">Proxies</a></li>
+        </ul>
+        <a href="../Pages/Config.html" class="settings-icon"><img src="../Images/cog.png" alt="Settings"></a>
+    </nav>
+
+    <header class="repo-header">
+        <h1 class="repo-title">CargoWagon</h1>
+        <div class="repo-status">Repository Status: <span style="color:var(--c-accent)">Secured</span> // Files: <span id="file-count">0</span></div>
+    </header>
+
+    <section class="controls">
+        <input type="text" id="repo-search" class="search-input" placeholder="Search cargo manifest (e.g. 'DNS', 'Replacer')...">
+    </section>
+
+    <!-- Main File Grid -->
+    <main id="file-grid" class="file-grid">
+        <!-- Rendered by JS -->
+    </main>
+
+    <footer style="text-align:center; padding:3rem; opacity:0.3; font-size:0.8rem;">
+        The Wagonization | JackWagon885 | "Google is irrelevant"
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../yee.js"></script>
+    <script>
+        /**
+         * CARGOWAGON MANIFEST
+         * Centralized database for easy updates
+         */
+        const FILE_DATABASE = [
+            {
+                name: "CAUBDNS Editor",
+                type: "HTML",
+                category: "Exploit",
+                path: "../Downloads/HTMLs/CAUBDNSEditor.html",
+                external: false
+            },
+            {
+                name: "Policy Password Tool",
+                type: "HTML",
+                category: "Exploit",
+                path: "../Downloads/HTMLs/PolicyPasswordTool.html",
+                external: false
+            },
+            {
+                name: "T-Crack Proxy",
+                type: "HTML",
+                category: "Proxy",
+                path: "../Downloads/HTMLs/T-Crack.html",
+                external: false
+            },
+            {
+                name: "Browser Crasher",
+                type: "LINK",
+                category: "Utility",
+                path: "https://codepen.io/KBPsystem/pen/baRxyY",
+                external: true
+            },
+            {
+                name: "Ease of Access Replacer",
+                type: "EXE",
+                category: "Tool",
+                path: "../Downloads/UtilmanReplacer.exe",
+                external: false
             }
-        </style>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Centered Text</title>
-        <style>
-            .centered-text {
-                text-align: center;
+        ];
+
+        const grid = document.getElementById('file-grid');
+        const searchInput = document.getElementById('repo-search');
+        const countDisplay = document.getElementById('file-count');
+
+        /**
+         * Renders the file cards based on a filter
+         */
+        function renderFiles(filter = "") {
+            grid.innerHTML = "";
+            const filtered = FILE_DATABASE.filter(file => 
+                file.name.toLowerCase().includes(filter.toLowerCase()) || 
+                file.category.toLowerCase().includes(filter.toLowerCase())
+            );
+
+            countDisplay.innerText = filtered.length;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div id="no-results">No cargo found matching "${filter}"</div>`;
+                return;
             }
-        </style>
-        <title>Small Text</title>
-        <style>
-            .small-text {
-                font-size: 10px;
-            }
-        </style>
-        <style>
-            .indented {
-                margin-left: 20px;
-            }
-        </style>
-        <style>
-            .indented2 {
-                margin-left: 40px;
-            }
-        </style>
-    </head>
-    <audio id="background-music" autoplay loop></audio>
-    <body>
-        <a href="..\Pages\Config.html"><img src="..\Images\cog.png" alt="cog" style="float: right; width:21px; height:21px;"></a>
-        <p class=""><a href="..\Pages\Home.html">Home</a> | <a href="..\Pages\Navigation.html">All</a> | <a href="..\Pages\TheBypassing.html">The Bypassing</a> | <b>CargoWagon</b> | <a href="..\Pages\Gamellection.html">Gamellection</a> | <a href="..\Pages\ProxList.html">ProxList</a> | <a href="..\Pages\Questions.html">Questions</a></p>
-        <hr>
-        <details>
-            <summary><b>HTMLs</b></summary>
-            <details>
-                <summary><b>Exploit</b></summary>
-                <a href="..\Downloads\HTMLs\CAUBDNSEditor.html" download="CAUBDNSEditor">CAUBDNS Editor</a>
-                <br>
-                <a href="..\Downloads\HTMLs\PolicyPasswordTool.html" download="PolicyPasswordTool">Policy Password Tool HTML</a>
-            </details>
-            <details>
-                <summary><b>Proxies</b></summary>
-                <a href="..\Downloads\HTMLs\T-Crack.html" download="T-Crack">T-Crack HTML</a>
-            </details>
-        </details>
-        <br>
-        <details>
-            <summary><b>Other</b></summary>
-            <a href="https://codepen.io/KBPsystem/pen/baRxyY">Browser Crasher</a>
-            <br>
-            <a id="ND" href="..\Downloads\UtilmanReplacer.exe">Ease of Access Replacer</a>
-        </details>
-        <div style="line-height:2250%;">
-            <br>
-        </div>
-        <p class="small-centered-text">Created by The Wagonization, consisting of JackWagon885 
-        <br>
-        All credit goes to the respective owners. I only compile them in a list.
-        <br>
-        Fuck you Google</p>
-    </body>
-</HTML>
-<script src="..\yee.js"></script>
+
+            filtered.forEach(file => {
+                const card = document.createElement('div');
+                card.className = 'file-card';
+                
+                // Determine download vs open
+                const actionText = file.external ? "Launch Link" : "Download Securely";
+                const downloadAttr = file.external ? "" : `download="${file.name}"`;
+
+                card.innerHTML = `
+                    <div class="file-info">
+                        <div class="file-meta">
+                            <span class="tag tag-type" data-type="${file.type}">${file.type}</span>
+                            <span class="tag">${file.category}</span>
+                        </div>
+                        <h3>${file.name}</h3>
+                    </div>
+                    <a href="${file.path}" ${downloadAttr} class="dl-btn" ${file.external ? 'target="_blank"' : ''}>
+                        ${actionText}
+                    </a>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Initialize and Search Event
+        searchInput.addEventListener('input', (e) => renderFiles(e.target.value));
+        
+        // Initial Render
+        document.addEventListener('DOMContentLoaded', () => renderFiles());
+
+        // Panic Key (Preserved from Navigation)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '`' || e.key === '~') window.location.replace('https://classroom.google.com');
+        });
+    </script>
+</body>
+</html>
