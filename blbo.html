@@ -2,244 +2,285 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="description" content="Secure Protocol Initialization">
     <meta name="theme-color" content="#000000">
     
-    <title>Drifter | Establishing Link...</title>
+    <title>Drifter | System Boot</title>
 
     <!-- Preconnect for speed -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&family=Yatra+One&display=swap" rel="stylesheet">
-    
-    <!-- External CSS (Assuming you want to keep the main styles consistent) -->
-    <link rel="stylesheet" type="text/css" href="stylez.css">
-    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../Images/Drifter.png">
 
-    <!-- Inline Critical CSS for the Loader Phase -->
     <style>
         :root {
-            --c-bg: #050505;
-            --c-text: #fff;
-            --c-accent: #8a2be2;
-            --font-main: 'Yatra One', cursive;
+            --bg: #010101;
+            --accent: #00ffc3;
+            --glow: rgba(0, 255, 195, 0.2);
+            --font-mono: 'JetBrains Mono', monospace;
         }
 
-        body {
-            background-color: var(--c-bg);
-            color: var(--c-text);
-            font-family: var(--font-main);
-            height: 100vh;
+        * { box-sizing: border-box; }
+
+        html, body {
+            height: 100%;
+            width: 100%;
             margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            background-color: var(--bg);
+            color: var(--accent);
+            font-family: var(--font-mono);
             overflow: hidden;
-            text-align: center;
+            cursor: none;
         }
 
-        /* Cinematic Background */
-        .bg-noise {
+        /* --- Background & Effects --- */
+        #vignette {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0) 50%, rgba(0,0,0,1) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after { /* Scanlines Effect */
+            content: '';
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.5), rgba(0,0,0,0.5) 1px, transparent 1px, transparent 2px);
+            opacity: 0.3;
             pointer-events: none;
-            z-index: -1;
+            z-index: 1;
         }
 
-        /* Image Container */
-        .visual-container {
+        /* --- Terminal Window --- */
+        #terminal {
             position: relative;
-            margin-bottom: 2rem;
-            animation: float 4s ease-in-out infinite;
+            z-index: 10;
+            width: clamp(300px, 90vw, 700px);
+            background: rgba(10, 25, 20, 0.3);
+            border: 1px solid rgba(0, 255, 195, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 50px var(--glow);
         }
 
-        .visual-container img {
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            border: 2px solid rgba(255,255,255,0.1);
-            box-shadow: 0 0 40px rgba(138, 43, 226, 0.2);
-            object-fit: cover;
+        /* --- ASCII Art & Glitch Effect --- */
+        #logo {
+            font-size: 0.8rem;
+            line-height: 1.1;
+            text-align: center;
+            margin-bottom: 20px;
+            white-space: pre;
+            color: var(--accent);
+            animation: text-flicker 3s linear infinite;
         }
 
-        /* Status Text */
-        .status-text {
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-            margin-bottom: 1rem;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-        }
-
-        .sub-status {
-            font-family: 'Eagle Lake', serif;
-            font-size: 0.9rem;
-            color: #888;
-        }
-
-        /* Progress Bar */
-        .progress-wrapper {
-            width: 300px;
-            height: 4px;
-            background: #222;
-            border-radius: 2px;
-            margin-top: 1.5rem;
+        #logo .glitch {
             position: relative;
+            text-shadow: 0 0 5px var(--glow);
+        }
+
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: inherit;
             overflow: hidden;
         }
 
-        .progress-fill {
-            position: absolute;
-            top: 0; left: 0; bottom: 0;
-            width: 0%;
-            background: linear-gradient(90deg, #555, var(--c-accent), #fff);
-            box-shadow: 0 0 15px var(--c-accent);
-            transition: width 0.1s linear;
+        .glitch::before {
+            left: 2px;
+            text-shadow: -1px 0 red;
+            animation: glitch-anim-1 2s linear infinite reverse;
+        }
+        .glitch::after {
+            left: -2px;
+            text-shadow: -1px 0 blue;
+            animation: glitch-anim-2 2s linear infinite reverse;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        @keyframes glitch-anim-1 { 0%, 100% { clip-path: inset(45% 0 50% 0); } 25% { clip-path: inset(0 0 0 0); } 50% { clip-path: inset(80% 0 15% 0); } 75% { clip-path: inset(50% 0 45% 0); } }
+        @keyframes glitch-anim-2 { 0%, 100% { clip-path: inset(50% 0 45% 0); } 25% { clip-path: inset(80% 0 15% 0); } 50% { clip-path: inset(0 0 0 0); } 75% { clip-path: inset(45% 0 50% 0); } }
+        @keyframes text-flicker { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
+
+        /* --- Boot Sequence Log --- */
+        #log {
+            height: 150px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            padding-left: 10px;
+            border-left: 1px solid rgba(0, 255, 195, 0.3);
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) transparent;
         }
+
+        #log p { margin: 0 0 8px 0; }
+        #log .ok { color: #0f0; }
+        #log .warn { color: #ff0; }
+        #log .err { color: #f00; }
         
-        /* Utility */
-        .hidden { opacity: 0; pointer-events: none; }
+        /* --- Prompt --- */
+        #prompt { text-align: center; margin-top: 20px; }
+        #prompt .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2em;
+            background: var(--accent);
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink { 50% { background: transparent; } }
+
+        /* --- Audio Control --- */
+        #audio-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: rgba(255,255,255,0.3);
+            cursor: pointer;
+            z-index: 100;
+            transition: color 0.3s;
+        }
+        #audio-toggle:hover { color: var(--accent); }
     </style>
 </head>
 <body>
-
-    <!-- Background Audio -->
+    <div id="vignette"></div>
     <audio id="bg-audio" src="Audio/NeverGonnaGiveYouUp.mp3" loop preload="auto"></audio>
-    <div class="bg-noise"></div>
+    <div id="audio-toggle"><i class="ph-fill ph-speaker-simple-slash"></i></div>
 
-    <!-- Main UI -->
-    <div class="visual-container">
-        <img src="Images/Silky.png" alt="Loading Avatar">
+    <div id="terminal">
+        <pre id="logo">
+            <span class="glitch" data-text="DRIFTER PROTOCOL">DRIFTER PROTOCOL</span>
+        </pre>
+        <div id="log"></div>
+        <div id="prompt">
+            <span>PRESS [ENTER] TO INITIATE</span><span class="cursor"></span>
+        </div>
     </div>
 
-    <h1 class="status-text" id="status-main">INITIALIZING</h1>
-    <p class="sub-status" id="status-sub">Generating secure container...</p>
-
-    <div class="progress-wrapper">
-        <div class="progress-fill" id="progress-bar"></div>
-    </div>
-
-    <!-- Robust Logic Script -->
     <script>
-        (function() {
-            'use strict';
+        'use strict';
 
-            // Configuration
-            const CONFIG = {
-                targetUrl: "https://the-wagonization.github.io/The-Wagon-Site/Pages/Home.html",
-                redirectDelay: 3500, // 3.5 seconds total load time
-                audioVolume: 0.4
+        // --- 1. CONFIGURATION ---
+        // Easily change the destination, timings, and boot sequence text here.
+        const CONFIG = {
+            targetUrl: "https://the-wagonization.github.io/The-Wagon-Site/Pages/Home.html",
+            audioVolume: 0.3,
+            bootSequence: [
+                { text: "Initializing secure connection...", time: 100 },
+                { text: "Verifying system integrity... [OK]", time: 500, status: 'ok' },
+                { text: "Kernel loaded.", time: 100 },
+                { text: "Mounting virtual file system... [OK]", time: 800, status: 'ok' },
+                { text: "Bypassing firewall... [WARN]", time: 1200, status: 'warn' },
+                { text: "Compiling cloaking layer...", time: 300 },
+                { text: "Generating Blob container...", time: 1500 },
+                { text: "All systems nominal. Redirecting...", time: 200 }
+            ]
+        };
+
+        // --- 2. DOM ELEMENTS ---
+        const els = {
+            log: document.getElementById('log'),
+            prompt: document.getElementById('prompt'),
+            audio: document.getElementById('bg-audio'),
+            audioToggle: document.getElementById('audio-toggle'),
+            audioIcon: document.querySelector('#audio-toggle i'),
+        };
+
+        // --- 3. CORE FUNCTIONS ---
+
+        /** A helper function for creating delays */
+        const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+        /** The main boot sequence logic */
+        async function startBootSequence() {
+            els.prompt.style.display = 'none';
+
+            // Attempt to start audio
+            try {
+                els.audio.volume = CONFIG.audioVolume;
+                await els.audio.play();
+                els.audioIcon.classList.replace('ph-speaker-simple-slash', 'ph-speaker-simple-high');
+            } catch (err) {
+                console.warn("Audio autoplay was blocked by the browser.");
+            }
+
+            // Loop through the configured boot sequence
+            for (const item of CONFIG.bootSequence) {
+                await delay(item.time);
+                const p = document.createElement('p');
+                
+                // Typewriter effect for each line
+                for (const char of item.text) {
+                    p.innerHTML += char;
+                    els.log.scrollTop = els.log.scrollHeight; // Auto-scroll
+                    await delay(10);
+                }
+                
+                if (item.status) {
+                    p.classList.add(item.status);
+                }
+                els.log.appendChild(p);
+            }
+
+            // Final redirection
+            redirect();
+        }
+
+        /** Handles redirection using a Blob URL for cloaking */
+        function redirect() {
+            const html = `
+                <!DOCTYPE html><html><head><title>New Tab</title><style>body,iframe{margin:0;padding:0;width:100%;height:100vh;border:none;overflow:hidden;}</style></head>
+                <body><iframe src="${CONFIG.targetUrl}"></iframe></body></html>`;
+            
+            try {
+                const blob = new Blob([html], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                window.location.replace(url);
+            } catch (e) {
+                console.error("Blob generation failed, falling back to direct link.", e);
+                window.location.replace(CONFIG.targetUrl); // Fallback
+            }
+        }
+        
+        /** Controls audio mute/unmute state */
+        function toggleAudio() {
+            els.audio.muted = !els.audio.muted;
+            const iconClass = els.audio.muted ? 'ph-speaker-simple-slash' : 'ph-speaker-simple-high';
+            els.audioIcon.className = `ph-fill ${iconClass}`;
+        }
+
+        // --- 4. INITIALIZATION ---
+        function init() {
+            const handleInteraction = () => {
+                document.removeEventListener('keydown', handleKey);
+                document.removeEventListener('click', handleInteraction);
+                startBootSequence();
             };
 
-            // DOM Elements
-            const els = {
-                bar: document.getElementById('progress-bar'),
-                mainText: document.getElementById('status-main'),
-                subText: document.getElementById('status-sub'),
-                audio: document.getElementById('bg-audio')
-            };
-
-            /**
-             * 1. The Cloaking Engine
-             * Generates the secure Blob URL
-             */
-            const generateBlobUrl = () => {
-                const htmlContent = `
-                    <!DOCTYPE html>
-                    <html lang="en">
-                    <head>
-                        <title>New Tab</title>
-                        <meta charset="UTF-8">
-                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <link rel="stylesheet" type="text/css" href="stylez.css">
-                        <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&family=Yatra+One&display=swap" rel="stylesheet">
-                        <style>
-                            html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; }
-                            iframe { width: 100vw; height: 100vh; border: none; display: block; }
-                        </style>
-                    </head>
-                    <body>
-                        <iframe src="${CONFIG.targetUrl}" allow="fullscreen; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </body>
-                    </html>
-                `;
-
-                try {
-                    const blob = new Blob([htmlContent], { type: 'text/html' });
-                    return URL.createObjectURL(blob);
-                } catch (e) {
-                    console.error("Blob generation failed", e);
-                    return CONFIG.targetUrl; // Fallback to direct link
+            const handleKey = (e) => {
+                if (e.key === 'Enter') {
+                    handleInteraction();
                 }
             };
 
-            /**
-             * 2. Animation & Logic Controller
-             */
-            const initSequence = async () => {
-                const startTime = Date.now();
-                
-                // Try to play audio (catch error if user hasn't interacted yet)
-                try {
-                    els.audio.volume = CONFIG.audioVolume;
-                    await els.audio.play();
-                } catch (err) {
-                    console.log("Autoplay prevented by browser. Continuing silently.");
-                }
+            document.addEventListener('keydown', handleKey);
+            document.addEventListener('click', handleInteraction);
+            els.audioToggle.addEventListener('click', toggleAudio);
+        }
 
-                // Animation Loop
-                const interval = setInterval(() => {
-                    const elapsed = Date.now() - startTime;
-                    const progress = Math.min((elapsed / CONFIG.redirectDelay) * 100, 100);
-                    
-                    els.bar.style.width = `${progress}%`;
+        init();
 
-                    // Text updates based on progress
-                    if (progress > 30 && progress < 60) {
-                        els.mainText.innerText = "ENCRYPTING";
-                        els.subText.innerText = "Masking origin protocol...";
-                    } else if (progress > 60 && progress < 90) {
-                        els.mainText.innerText = "CLOAKING";
-                        els.subText.innerText = "Wrapping in blob object...";
-                    } else if (progress >= 100) {
-                        clearInterval(interval);
-                        finalizeRedirect();
-                    }
-                }, 50);
-            };
-
-            /**
-             * 3. Final Redirection
-             */
-            const finalizeRedirect = () => {
-                els.mainText.innerText = "COMPLETE";
-                els.subText.innerText = "Transporting...";
-                
-                const secureUrl = generateBlobUrl();
-                
-                // Small delay to read "Complete"
-                setTimeout(() => {
-                    // Use replace to scrub history so Back button doesn't work easily
-                    window.location.replace(secureUrl);
-                }, 200);
-            };
-
-            // Start system when DOM is ready
-            window.onload = initSequence;
-
-        })();
     </script>
 </body>
 </html>
