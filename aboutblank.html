@@ -1,73 +1,305 @@
-<!DOCTYPE HTML>
-<HTML>
-    <head>
-        <title>about:blanking...</title>
-        <link rel="icon" type="image/x-icon" href="..\Images\Drifter.png">
-        <link rel="stylesheet" type="text/css" href="stylez.css">
-        <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Yatra+One&display=swap" rel="stylesheet">
-        <script>
-            const htmlContent = `
-                <!DOCTYPE HTML>
-                <HTML lang="en">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Standby | WagonOS</title>
+    <link rel="icon" type="image/x-icon" href="../Images/JackWagonIcon.png">
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        :root {
+            --neon: #00f2ff;
+            --bg: #050505;
+            --glass: rgba(20, 20, 20, 0.8);
+            --border: 1px solid rgba(0, 242, 255, 0.2);
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: var(--bg);
+            font-family: 'Outfit', sans-serif;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Canvas Background */
+        #matrixCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        /* Glass Launcher Card */
+        .launcher-card {
+            position: relative;
+            z-index: 10;
+            width: 450px;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: var(--border);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 50px rgba(0, 242, 255, 0.1);
+            text-align: center;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--neon);
+            margin: 0 0 20px 0;
+            font-size: 1.5rem;
+            text-shadow: 0 0 10px var(--neon);
+        }
+
+        /* Inputs */
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            font-size: 0.8rem;
+            color: #888;
+            margin-left: 5px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid #333;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--neon);
+            outline: none;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+        }
+
+        /* Buttons */
+        .launch-btn {
+            background: var(--neon);
+            color: #000;
+            font-weight: bold;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .launch-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px var(--neon);
+        }
+
+        /* Preset Chips */
+        .presets {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .chip {
+            background: rgba(255,255,255,0.1);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .chip:hover {
+            border-color: var(--neon);
+            color: var(--neon);
+        }
+
+        /* Audio Control */
+        .audio-ctrl {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 20;
+            color: #555;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: 0.3s;
+        }
+        .audio-ctrl:hover { color: var(--neon); }
+
+    </style>
+</head>
+<body>
+
+    <!-- Animated Background -->
+    <canvas id="matrixCanvas"></canvas>
+
+    <!-- Audio (Hidden by default) -->
+    <audio id="bgMusic" loop>
+        <!-- Replaced absolute path with relative. Ensure file exists or replace URL -->
+        <source src="../Audio/NeverGonnaGiveYouUp.mp3" type="audio/mpeg">
+    </audio>
+    <div class="audio-ctrl" onclick="toggleAudio()">
+        <i class="ph-fill ph-speaker-slash" id="audioIcon"></i>
+    </div>
+
+    <!-- The Launcher -->
+    <div class="launcher-card">
+        <h1><i class="ph-bold ph-rocket-launch"></i> AB:Blank Launcher</h1>
+        
+        <div class="presets">
+            <div class="chip" onclick="setPreset('Google Classroom', 'https://ssl.gstatic.com/classroom/favicon.png')">Classroom</div>
+            <div class="chip" onclick="setPreset('Google Drive', 'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png')">Drive</div>
+            <div class="chip" onclick="setPreset('New Tab', 'https://www.google.com/favicon.ico')">Google</div>
+        </div>
+
+        <div class="input-group">
+            <label>Destination URL</label>
+            <input type="text" id="targetUrl" value="https://lfisher447-afk.github.io/The-Wagon-Site/Pages/Home.html">
+        </div>
+
+        <div class="input-group">
+            <label>Tab Title (Mask)</label>
+            <input type="text" id="maskTitle" value="Google Drive">
+        </div>
+
+        <div class="input-group">
+            <label>Favicon URL (Mask)</label>
+            <input type="text" id="maskIcon" value="https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png">
+        </div>
+
+        <button class="launch-btn" onclick="launchCloak()">
+            Launch Cloaked
+        </button>
+        
+        <p style="font-size: 0.7rem; color: #555; margin-top: 15px;">
+            Uses iFrame injection to hide URL history.
+        </p>
+    </div>
+
+    <script>
+        // --- 1. Matrix Rain Effect ---
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%";
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#00f2ff"; // Neon Blue text
+            ctx.font = fontSize + "px monospace";
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 33);
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // --- 2. Launcher Logic ---
+        function setPreset(title, icon) {
+            document.getElementById('maskTitle').value = title;
+            document.getElementById('maskIcon').value = icon;
+        }
+
+        function launchCloak() {
+            const url = document.getElementById('targetUrl').value;
+            const title = document.getElementById('maskTitle').value;
+            const icon = document.getElementById('maskIcon').value;
+
+            // Open a new blank window
+            const win = window.open('about:blank', '_blank');
+
+            if (!win) {
+                alert("Popup blocked! Please allow popups for this site.");
+                return;
+            }
+
+            // The HTML structure to inject
+            const content = `
+                <!DOCTYPE html>
+                <html>
                 <head>
-                    <title>New Tab</title>
-                    <link rel="stylesheet" type="text/css" href="stylez.css">
-                    <link href="https://fonts.googleapis.com/css2?family=Eagle+Lake&display=swap" rel="stylesheet">
-                    <link href="https://fonts.googleapis.com/css2?family=Yatra+One&display=swap" rel="stylesheet">
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>${title}</title>
+                    <link rel="icon" href="${icon}">
                     <style>
-                        html, body {
-                            height: 100%;
-                            margin: 0;
-                        }
-                        iframe {
-                            width: 100%;
-                            height: 100vh;
-                            border: none;
-                        }
-                   </style>
+                        body { margin:0; padding:0; height:100vh; overflow:hidden; }
+                        iframe { border:none; width:100%; height:100%; }
+                    </style>
                 </head>
                 <body>
+                    <iframe src="${url}" allowfullscreen></iframe>
                 </body>
-                </HTML>
-            `
-            window.open('about:blank', '_blank').document.write(`<iframe src="lfisher447-afk.github.io/The-Wagon-Site/Pages/Home.html" style="width:100%; height:100vh; border:none;"></iframe>`)``
-        </script>
-        <title>Centered Small Text</title>
-        <style>
-            .small-centered-text {
-                font-size: 10px;
-                text-align: center;
+                </html>
+            `;
+
+            // Inject content
+            win.document.open();
+            win.document.write(content);
+            win.document.close();
+        }
+
+        // --- 3. Audio Logic ---
+        const audio = document.getElementById('bgMusic');
+        const icon = document.getElementById('audioIcon');
+
+        function toggleAudio() {
+            if (audio.paused) {
+                audio.play().catch(e => console.log("Audio play failed (user interaction needed)"));
+                icon.classList.replace('ph-speaker-slash', 'ph-speaker-high');
+                icon.style.color = 'var(--neon)';
+            } else {
+                audio.pause();
+                icon.classList.replace('ph-speaker-high', 'ph-speaker-slash');
+                icon.style.color = '#555';
             }
-        </style>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Centered Text</title>
-        <style>
-            .centered-text {
-                text-align: center;
-            }
-        </style>
-        <title>Small Text</title>
-        <style>
-            .small-text {
-                font-size: 10px;
-            }
-        </style>
-        <style>
-            .indented {
-                margin-left: 20px;
-            }
-        </style>
-        <style>
-            .indented2 {
-                margin-left: 40px;
-            }
-        </style>
-    </head>
-    <audio id="background-music" src="Audio\NeverGonnaGiveYouUp.mp3" autoplay loop></audio>
-    <body>
-        <p class="centered-text"><img src="Images\Silky.png" alt="meow" width="500" height="500"></p>
-    </body>
-</HTML>
+        }
+    </script>
+</body>
+</html>
